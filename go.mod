@@ -1,4 +1,4 @@
-module github.com/FloatTech/zbputils
+module github.com/QingFeng-awa/zbputils
 
 go 1.20
 
