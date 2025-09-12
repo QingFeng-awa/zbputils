@@ -72,7 +72,7 @@ func init() {
 	}
 	zero.OnCommandGroup([]string{
 		"响应", "response", "沉默", "silence",
-	}, zero.UserOrGrpAdmin, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		grp := ctx.Event.GroupID
 		if grp == 0 {
 			// 个人用户
@@ -102,7 +102,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"全局响应", "allresponse", "全局沉默", "allsilence",
-	}, zero.SuperUserPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		var msg message.Segment
 		cmd := ctx.State["command"].(string)
 		switch {
@@ -128,7 +128,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"启用", "enable", "禁用", "disable",
-	}, zero.UserOrGrpAdmin, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -160,7 +160,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"此处启用所有插件", "adhocenableall", "此处禁用所有插件", "adhocdisableall",
-	}, zero.SuperUserPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		grp := ctx.Event.GroupID
 		if grp == 0 {
 			grp = -ctx.Event.UserID
@@ -186,7 +186,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"全局启用", "allenable", "全局禁用", "alldisable",
-	}, zero.OnlyToMe, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -203,7 +203,7 @@ func init() {
 		}
 	})
 
-	zero.OnCommandGroup([]string{"还原", "reset"}, zero.UserOrGrpAdmin, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	zero.OnCommandGroup([]string{"还原", "reset"}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -250,7 +250,7 @@ func init() {
 		ctx.State["__servicename__"] = args[0]
 		ctx.State["__args__"] = argsparsed
 		return true
-	}, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		command := ctx.State["__command__"].(string)
 		servicename := ctx.State["__servicename__"].(string)
 		args := ctx.State["__args__"].([]int64)
@@ -311,7 +311,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"全局禁止", "allban", "全局允许", "allpermit",
-	}, zero.SuperUserPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		args := strings.Split(model.Args, " ")
@@ -347,7 +347,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"封禁", "block", "解封", "unblock",
-	}, zero.SuperUserPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		args := strings.Split(model.Args, " ")
@@ -380,7 +380,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"改变默认启用状态", "allflip",
-	}, zero.SuperUserPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -444,7 +444,7 @@ func init() {
 			}
 		})
 
-	zero.OnCommandGroup([]string{"服务列表", "service_list"}, zero.OnlyToMe).SetBlock(true).SecondPriority().
+	zero.OnCommandGroup([]string{"服务列表", "service_list"}).SetBlock(true).SecondPriority().
 		Handle(func(ctx *zero.Ctx) {
 			gid := ctx.Event.GroupID
 			if gid == 0 {
