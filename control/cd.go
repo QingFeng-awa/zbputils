@@ -20,7 +20,7 @@ var startTime int64
 
 func init() {
 	// 插件冲突检测 会在本群发送一条消息并在约 1s 后撤回
-	zero.OnFullMatch("插件冲突检测", zero.OnlyGroup, zero.AdminPermission, zero.OnlyToMe).SetBlock(true).SecondPriority().
+	zero.OnFullMatch("插件冲突检测", zero.OnlyGroup, zero.SuperUserPermission).SetBlock(true).SecondPriority().
 		Handle(func(ctx *zero.Ctx) {
 			tok := genToken()
 			if tok == "" || len([]rune(tok)) != 4 {

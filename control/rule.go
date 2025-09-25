@@ -72,7 +72,7 @@ func init() {
 	}
 	zero.OnCommandGroup([]string{
 		"响应", "response", "沉默", "silence",
-	}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		grp := ctx.Event.GroupID
 		if grp == 0 {
 			// 个人用户
@@ -128,7 +128,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"启用", "enable", "禁用", "disable",
-	}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -203,7 +203,7 @@ func init() {
 		}
 	})
 
-	zero.OnCommandGroup([]string{"还原", "reset"}, zero.UserOrGrpAdmin).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
+	zero.OnCommandGroup([]string{"还原", "reset"}, zero.SuperUserPermission).SetBlock(true).SecondPriority().Handle(func(ctx *zero.Ctx) {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		service, ok := Lookup(model.Args)
@@ -222,7 +222,7 @@ func init() {
 
 	zero.OnCommandGroup([]string{
 		"禁止", "ban", "允许", "permit",
-	}, zero.AdminPermission, func(ctx *zero.Ctx) bool {
+	}, zero.SuperUserPermission, func(ctx *zero.Ctx) bool {
 		model := extension.CommandModel{}
 		_ = ctx.Parse(&model)
 		args := strings.Split(model.Args, " ")
