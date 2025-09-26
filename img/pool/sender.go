@@ -3,6 +3,7 @@ package pool
 
 import (
 	"errors"
+	"strings"
 
 	"github.com/wdvxdr1123/ZeroBot/message"
 
@@ -22,7 +23,12 @@ func SendImageFromPool(
 		}
 	}
 	// 发送图片
-	img := message.Image("file:///" + file.BOTPATH + "/" + imgpath)
+	fullPath := file.BOTPATH
+	if !strings.HasSuffix(fullPath, "/") {
+		fullPath += "/"
+	}
+	fullPath += imgpath
+	img := message.Image("file:///" + fullPath)
 	id := send(message.Message{img})
 	if id == 0 {
 		id = send(message.Message{img.Add("cache", "0")})
