@@ -22,7 +22,7 @@ func SendImageFromPool(
 		}
 	}
 	// 发送图片
-	img := message.Image(file.BOTPATH + "/" + imgpath)
+	img := message.Image("file:///" + file.BOTPATH + "/" + imgpath)
 	id := send(message.Message{img})
 	if id == 0 {
 		id = send(message.Message{img.Add("cache", "0")})
